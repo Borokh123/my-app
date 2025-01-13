@@ -1,0 +1,41 @@
+.nav {
+    grid-area: n;
+    background-color:grey;
+    padding: 10px;
+    width: 200px;
+    color:white;
+    }
+
+.item a {
+    color: white;
+    text-decoration: none;
+}
+
+item a:active, a:focus {
+    color: green;
+}
+.myFriends {
+    display:flex;
+    margin-top: 15px;
+    color:white;
+    justify-content: space-around;
+    
+}
+
+
+
+.friendBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.friendImg img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+}
+
+.friendName {
+    font-size: 12px;
+}

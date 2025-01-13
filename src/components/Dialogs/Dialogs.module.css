@@ -1,0 +1,70 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+
+}
+
+
+.dialogItems {
+    padding: 10px;
+}
+
+.dialogItems dialog {}
+
+.dialog {
+    display: flex;
+    align-items: center;
+}
+
+.dialog img {
+    padding-right: 5px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    margin: 10px;
+    background: #f1f1f1;
+    width: 10%;
+    padding: 10px;
+    border-radius: 13%;
+  
+}
+
+.message:nth-child(odd) {
+    align-self: flex-end;
+  
+ 
+}
+
+.message:nth-child(even) {
+    align-self: flex-start;
+ 
+}
+
+.newMessage {
+    display: flex;
+    flex:20%;
+    flex-wrap: nowrap;
+} 
+.newMessage .textType  {
+    flex-grow: 8;
+
+} 
+
+.newMessage .textTypeBtn  {
+    flex-grow: 1;
+
+} 
+.newMessage textarea {
+    width: 30%;
+}
+
+
+

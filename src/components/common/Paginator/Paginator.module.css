@@ -1,0 +1,19 @@
+.paginator {
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.pageNumber {
+    padding: 2px;
+    border: 1px solid grey;
+    cursor: pointer;
+    margin: 0 3px 0 3px;
+
+    /* Добавим указатель на курсор */
+}
+
+.selectedPage {
+    font-weight: bold;
+    border-color: black;
+}
