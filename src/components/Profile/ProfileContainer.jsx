@@ -1,7 +1,7 @@
 import React from 'react'
 import Profile from './Profile'
 import { connect } from 'react-redux';
-import { getStatus, getUserProfile, updateStatus } from '../../redux/ProfileReducer';
+import { getStatus, getUserProfile, savePhoto, saveProfile, updateStatus } from '../../redux/ProfileReducer';
 import { useParams } from 'react-router-dom';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
@@ -16,31 +16,43 @@ export function withRouter(Children) {
 }
 
 class ProfileContainer extends React.Component {
-    componentDidMount() {
+    refreshProfile() {
         let userId = this.props.match.params.userId;
         if (!userId) {
-        userId = this.props.authorizedUserId;
-        
+            userId = this.props.authorizedUserId;
+            // if (!userId) {
+            //     this.props.push("/login");
+            // }
         }
 
         this.props.getUserProfile(userId);// ф-я из thunk reducer
-        // setTimeout(() => {
-
-        // }, 1000);
         this.props.getStatus(userId);
-        // profileAPI.getProfile(userId)
-        //     .then(data => {
+    }
 
-        //         this.props.setUserProfile(data) // компонента, она работает через колбэки и постоянно берет у пропсов что нибудь
-        //         // колбэки приходят из mapDispatch to props // данные всегда в response.data если с помощью axios
-        //     }); // в пропсах где то этот колбэк должен появится с помощью mapdispatchToProps, тоесть мы делаем еще одну котейнерную компоненту над нашей конт. комп. с помощью коннекта
+    componentDidMount() { // срабатывает один раз когда компонента единожда вмонтируется, если меняется state локальный или пропсы приходят другие то компонента не монтируется и перерисовки нет
+        this.refreshProfile();
+
+
+    }
+    componentDidUpdate(prevProps, prevState, snapshot) { // срабатывает при каждом изминении пропсов (срабатывает если происходят изм в локальном сторе в локальном state)
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
+            this.refreshProfile();
+        }
+
 
     }
 
     render() {
-        // console.log ('RENDER PROFILE');
+
         return (
-            <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatus={this.props.updateStatus} />
+            <Profile
+                {...this.props}
+                isOwner={!this.props.match.params.userId}
+                profile={this.props.profile}
+                status={this.props.status}
+                updateStatus={this.props.updateStatus}
+                savePhoto={this.props.savePhoto}
+            />
         )
     }
 }
@@ -48,17 +60,17 @@ class ProfileContainer extends React.Component {
 let mapStateToProps = (state) => {
     // console.log ('mapStateToProps PROFILE');
     return ({
-    profile: state.profilePage.profile,
-    status: state.profilePage.status,
-    authorizedUserId: state.auth.userId, // в reduxStore ветка auth ветка
-    isAuth: state.auth.isAuth
+        profile: state.profilePage.profile,
+        status: state.profilePage.status,
+        authorizedUserId: state.auth.userId, // в reduxStore ветка auth ветка
+        isAuth: state.auth.isAuth
 
-})
+    })
 }
 export default compose(
-    connect(mapStateToProps, { getUserProfile, getStatus, updateStatus }),
+    connect(mapStateToProps, { getUserProfile, getStatus, updateStatus, savePhoto, saveProfile }),
     withRouter,
-     withAuthRedirect
+    withAuthRedirect
 )(ProfileContainer);
 // let AuthRedirectComponent = withAuthRedirect(ProfileContainer);
 // let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent) // Контейнераная компонента

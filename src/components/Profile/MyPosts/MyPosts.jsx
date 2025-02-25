@@ -10,7 +10,7 @@ const MyPosts = React.memo(props => {
   console.log('RENDER');
 //   window.props.push(props);
 //   console.log(props);
-  let postElements = props.posts.map(p => <Post message={p.message} like={p.like} />);
+  let postElements = props.posts.map(p => <Post key = {p.id} message={p.message} like={p.like} />);
   let newPostElement = React.createRef();
 
   let onAddPost = values => {

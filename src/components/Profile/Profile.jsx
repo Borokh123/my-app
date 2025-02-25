@@ -5,11 +5,20 @@ import MyPostsContainer from './MyPosts/MyPostsContainer'
 import { Navigate } from 'react-router-dom'
 
 const Profile = (props) => {
-  
-     return (
+ 
+
+    return (
         <div className={s.profile}>
-            <ProfileInfo profile = {props.profile} status = {props.status} updateStatus = {props.updateStatus} />
-            <MyPostsContainer store = {props.store} />
+            <ProfileInfo
+                isOwner={props.isOwner}
+                profile={props.profile}
+                status={props.status}
+                updateStatus={props.updateStatus}
+                savePhoto={props.savePhoto}
+                saveProfile = {props.saveProfile}
+                 />
+                
+            <MyPostsContainer store={props.store} />
         </div>
     )
 }

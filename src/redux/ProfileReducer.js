@@ -1,3 +1,4 @@
+import { stopSubmit } from "redux-form";
 import { profileAPI, usersAPI } from "../api/api";
 
 
@@ -6,6 +7,7 @@ const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 const SET_STATUS = 'SET_STATUS';
 const DELETE_POST = 'DELETE_POST';
+const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
 let initialState = {
     posts: [
@@ -50,6 +52,9 @@ const ProfileReducer = (state = initialState, action) => {
 
         case DELETE_POST:
             return { ...state, posts: state.posts.filter(p => p.id !== action.postId) };
+        
+            case SAVE_PHOTO_SUCCESS:
+            return { ...state, profile: {...state.profile, photos:action.photos} };
 
         default:
             return state;
@@ -60,6 +65,7 @@ export const addPostActionCreator = (newPostText) => ({ type: ADD_POST, newPostT
 export const setUserProfile = (profile) => ({ type: SET_USER_PROFILE, profile }) //ActionCreator ф-я которая возвр обьект Action, Action это обьект в котором инкапсулированы все данные для того чтоб reducer получил этот action и применил изминения на state свой. 
 export const setStatus = (status) => ({ type: SET_STATUS, status }) //ActionCreator ф-я которая возвр обьект Action, Action это обьект в котором инкапсулированы все данные для того чтоб reducer получил этот action и применил изминения на state свой. 
 export const deletePost = (postId) => ({ type: DELETE_POST, postId })
+export const savePhotoSuccess = (photos) => ({ type: SAVE_PHOTO_SUCCESS, photos })
 // export const updateNewPostActionCreator = (text) => ({ type: UPDATE_NEW_POST_TEXT, newText: text })
 
 export const getUserProfile = (userId) =>  // ф-я котороя может что то принимать и которая возвращает санку
@@ -81,6 +87,29 @@ export const updateStatus = (status) =>  // ф-я котороя может чт
         const response = await profileAPI.updateStatus(status)
         if (response.data.resultCode === 0) {
             dispatch(setStatus(status))
+        }
+    }
+
+    export const savePhoto = (file) =>  // ф-я котороя может что то принимать и которая возвращает санку
+    async (dispatch) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+        const response = await profileAPI.savePhoto(file)
+        if (response.data.resultCode === 0) {
+             dispatch(savePhotoSuccess(response.data.data.photos))
+        }
+    }
+
+    export const saveProfile = (profile) =>  // ф-я котороя может что то принимать и которая возвращает санку
+        async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+        const userId = getState().auth.userId;
+            const response = await profileAPI.saveProfile(profile)
+        if (response.data.resultCode === 0) {
+              dispatch(getUserProfile(userId))
+        }
+        else {
+                    dispatch(stopSubmit('editProfile', { _error: response.data.messages[0] }));
+                    return Promise.reject(response.data.messages[0]);
+                    //dispatch(stopSubmit('editProfile', { "contacts" : {"facebook":response.data.messages[0]}  }));
+            
         }
     }
 

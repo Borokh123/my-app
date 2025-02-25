@@ -2,7 +2,7 @@ import React, { Component, Suspense } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 import Settings from './components/Settings/Settings';
 import Music from './components/Music/Music';
 import News from './components/News/News';
@@ -34,7 +34,7 @@ class App extends Component {
       return <Preloader />
     }
     return (
-      <BrowserRouter >
+      <HashRouter >
         <div className='appWrapper'>
           <HeaderContainer />
           <Navbar sideBar={this.props.state.sideBar} />
@@ -55,7 +55,7 @@ class App extends Component {
             </Suspense>
           </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     )
   }
 }

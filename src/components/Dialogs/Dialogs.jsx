@@ -8,18 +8,18 @@ import { AddMessageFormRedux } from './AddMessageForm'
 
 
 const Dialogs = (props) => {
+
   let state = props.dialogsPage;
   let newMessageElement = React.createRef();
 
-  let addNewMessage = (values) => {
+  let addNewMessage = (formData) => {
     // из name Filed
-   props.sendMessage(values.newMessageBody)
-
+    props.sendMessage(formData.newMessageBody)
   }
-  
-     if (!props.isAuth) return <Navigate  to={"/login"}/>
+  if (!props.isAuth) return <Navigate to={"/login"} />
   let dialogsElements = state.dialogs.map((d) => <DialogItem name={d.name} id={d.id} />)
   let messagesElement = state.messages.map((m) => <Message message={m.message} id={m.id} />)
+  debugger;
   return (
     <div className={s.dialogs}>
       <div className={s.dialogItems}>
@@ -27,11 +27,8 @@ const Dialogs = (props) => {
       </div>
       <div className={s.messages}>
         {messagesElement}
-       
-        <AddMessageFormRedux onSubmit={addNewMessage}/>
-        
+        <AddMessageFormRedux onSubmit={addNewMessage} />
       </div>
-    
     </div>
   )
 }
