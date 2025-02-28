@@ -5,10 +5,68 @@
     justify-content: space-between;
 }
 
+
+.mainPhotoBlock {
+    display: flex;
+    align-items: flex-end;
+}
+
+.PhotoBlock {
+    width: 150px;
+    height: 150px;
+    margin: 0 5px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
 .mainPhoto {
     max-width: 200px;
+    width: auto;
+    height: 100%;
+    margin: 0 auto;
 }
 
 .contact {
     padding-left: 10px;
 }
+
+.profileBlock {
+    display: flex;
+    flex-direction: column;
+}
+
+.editBlock {}
+
+.profileData {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    margin:20px 0;
+}
+
+
+.fullName {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.editBtn {
+    cursor: pointer;
+    border: 0.5px solid rgb(83, 100, 113);
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 25px;
+    max-width: 150px;
+    font-size: 15px;
+    font-weight: 700;
+    
+}
+
+.editBtn:hover {
+    background-color: #2C3640
+}
+
+
+

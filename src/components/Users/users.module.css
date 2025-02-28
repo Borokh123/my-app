@@ -1,7 +1,46 @@
 .userPhoto {
-    width: 100px;
-    height: 100px;
+    width: auto;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.photoBlock {
+    width: 40x;
+    height: 40px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 50%;
 }
 .selectedPage {
     font-weight: bold;
+}
+
+.userCard {
+    display: flex;
+}
+
+.usersName {
+    font-weight: 600;
+}
+
+.userCard {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center ;
+    padding: 10px;
+}
+
+
+
+.photoNameFollow {
+    display: flex;
+}
+
+.followBlockBtn{
+    padding:0 25px
+}
+
+.info {
+    padding: 0 10px;
 }

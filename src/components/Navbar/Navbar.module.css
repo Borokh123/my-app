@@ -1,25 +1,58 @@
 .nav {
     grid-area: n;
-    background-color:grey;
+    background-color: grey;
     padding: 10px;
-    width: 200px;
-    color:white;
-    }
+    color: white;
+    background-color: #15202B;
+}
+
+.item {
+    
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+}
+
+.item svg {
+    fill:white;
+    width:1.75rem;
+    height: 1.75rem;
+    margin-right: 20px;
+
+}
+
+.item a:hover {
+    background-color: #2C3640;
+    border-radius: 25px;
+
+
+}
+
 
 .item a {
     color: white;
     text-decoration: none;
+    font-size: 20px;
+    padding: 15px 20px;
+    border-radius: 25px;
+    max-width: 150px;
+    cursor: pointer;
+    display: flex;
+   align-items: center;
 }
 
-item a:active, a:focus {
+item a:active,
+a:focus {
     color: green;
 }
+
 .myFriends {
-    display:flex;
+    display: flex;
     margin-top: 15px;
-    color:white;
+    color: white;
     justify-content: space-around;
-    
+
 }
 
 

@@ -26,15 +26,15 @@ const ProfileInfo = (props) => {
     }
     const onSubmit = (formData) => {
         props.saveProfile(formData)
-        .then(
-            () => {
-                setEditMode(false);
-            })
-        .catch(error => {
-            // Здесь можно, например, вывести уведомление или залогировать ошибку,
-            // чтобы страница не "перебрасывалась".
-            console.error('Ошибка при сохранении профиля:', error);
-        });
+            .then(
+                () => {
+                    setEditMode(false);
+                })
+            .catch(error => {
+                // Здесь можно, например, вывести уведомление или залогировать ошибку,
+                // чтобы страница не "перебрасывалась".
+                console.error('Ошибка при сохранении профиля:', error);
+            });
 
     };
     return (
@@ -46,8 +46,12 @@ const ProfileInfo = (props) => {
             </div> */}
 
             <div className={s.descriptionBlock}>
-                <img src={props.profile.photos.large || UserPhoto} alt="" className={s.mainPhoto} />
-                {props.isOwner && <input type={"file"} onChange={onMainPhotoSelected} />}
+                <div className={s.mainPhotoBlock}>
+                    <div className={s.PhotoBlock}>
+                        <img src={props.profile.photos.large || UserPhoto} alt="" className={s.mainPhoto} />
+                    </div>
+                    {props.isOwner && <input type={"file"} onChange={onMainPhotoSelected} />}
+                </div>
                 {editMode
                     ? <ProfileDataFormReduxForm initialValues={props.profile} profile={props.profile} onSubmit={onSubmit} />
                     : <ProfileData goToEditMode={() => { setEditMode(true) }} profile={props.profile} isOwner={props.isOwner} />}
@@ -58,9 +62,10 @@ const ProfileInfo = (props) => {
     )
 }
 const ProfileData = ({ profile, isOwner, goToEditMode }) => {
-    return <div>
-        {isOwner && <div><button type="button" onClick={goToEditMode}>Edit</button></div>}
-        <div><b>Full name:</b> {profile.fullName}</div>
+    return <div className={s.profileData}>
+        {isOwner && <div className = {s.editBlock}><button className={s.editBtn} type="button" onClick={goToEditMode}><span className={s.buttonText}>Edit profile</span></button></div>}
+        <div className={s.profileBlock}> 
+        <div className={s.fullName}> {profile.fullName}</div>
         <div><b>Looling for a job:</b> {profile.lookingForAJob ? 'yes' : 'no'}</div>
         {profile.lookingForAJob &&
             <div><b>My proffesinal skills:</b> {profile.lookingForAJobDescription}</div>
@@ -71,6 +76,8 @@ const ProfileData = ({ profile, isOwner, goToEditMode }) => {
             return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]} />
         })}
         </div>
+        </div>
+        
     </div>
 }
 
