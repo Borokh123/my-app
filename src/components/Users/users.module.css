@@ -40,6 +40,24 @@
 .followBlockBtn{
     padding:0 25px
 }
+.followBlockBtn button{
+    cursor: pointer;
+    border: 0.5px solid rgb(83, 100, 113);
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    text-decoration: none;
+    padding: 8px 20px;
+    border-radius: 25px;
+    min-width: 113px;
+    font-size: 15px;
+    font-weight: 700;
+}
+.followBlockBtn button:hover {
+    background-color: #2C3640;
+}
+
+
+
 
 .info {
     padding: 0 10px;

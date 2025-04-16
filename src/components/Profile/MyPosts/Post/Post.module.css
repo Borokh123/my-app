@@ -1,7 +1,37 @@
 .item {
-    color: blue;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 9px;
+    border: 0.5px solid #5b5858;
     }
+
+.item .fullName {
+    font-size: 15px;
+    color:white;
+    font-weight: 700;
+}
+
+.messageBlock {
+
+}
+
 
 .item img {
     width: 50px;
+    border-radius: 50%;
+}
+
+
+.messageBlock  {
+display: flex;
+flex-direction: column;
+padding-right: 10px;
+}
+.messageBlock .post {
+
+}
+
+.messageBlock .fullName {
+
 }

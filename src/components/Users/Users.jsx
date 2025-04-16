@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { usersAPI } from '../../api/api';
 import Paginator from '../common/Paginator/Paginator';
+import FollowBtn from './FollowBtn';
 const Users = (props) => {
 
     return (
@@ -24,7 +25,7 @@ const Users = (props) => {
                             <div>{"u.location.city"}</div>
                         </div>
                     </div>
-                    <div className={styles.followBlockBtn}>
+                    {/* <div className={styles.followBlockBtn}>
                         {u.followed
                             ? <button disabled={props.followingInProgress.some(id => id === u.id)} onClick={() => {
                                 props.unfollow(u.id)
@@ -35,7 +36,18 @@ const Users = (props) => {
                             }}>Follow</button>
                         }
 
-                    </div>
+                    </div> */}
+
+
+                    <FollowBtn
+                    followed={u.followed}
+                    userId={u.id}
+                    followingInProgress={props.followingInProgress}
+                    follow={props.follow}
+                    unfollow={props.unfollow}
+                    
+                    
+                    />
 
 
                 </div >)

@@ -1,14 +1,13 @@
 .appWrapper {
   display: grid;
-  max-width: 1000px;
+  max-width: 1330px;
   margin: 0 auto;
   grid-template-rows: 60px 1fr;
-  grid-template-columns: 3fr 7fr;
-  grid-gap:10px;
-  grid-template-areas: 
-  "n h"
-  "n c"
-  ;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 10px;
+  grid-template-areas:
+    "n h "
+    "n c ";
 }
 
 .appWrapperContent {
@@ -16,5 +15,9 @@
   background-color: #15202B;
   border: 0.5px solid #5b5858;
   color: white;
-  }
+  max-width: 600px;
+}
 
+input {
+  cursor: text;
+}

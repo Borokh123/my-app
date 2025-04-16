@@ -2,7 +2,7 @@ import React, { Component, Suspense } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Settings from './components/Settings/Settings';
 import Music from './components/Music/Music';
 import News from './components/News/News';
@@ -41,9 +41,11 @@ class App extends Component {
           <div class='appWrapperContent '>
             {/* Route видет путь и рендерить компоненту */}
             <Suspense fallback={<div><Preloader /></div>}>
+            
             <Routes>
               {/* <Route path='/profile' element={<Profile profilePage={props.state.profilePage} dispatch={props.dispatch} />} /> */}
               {/* this.props - match - params,path, url */}
+              <Route path="/" element={<Navigate to="/profile"/>} />
               <Route path='/profile/:userId?' element={<ProfileContainer />} />
               <Route path='/users/' element={<UsersContainer />} />
               <Route path='/dialogs/*' element={<DialogsContainer />} />
@@ -51,7 +53,10 @@ class App extends Component {
               <Route path='/music' Component={Music} />
               <Route path='/settings' Component={Settings} />
               <Route path='/login' Component={Login} />
+              <Route path="*" element={"not found 404"} />
+              
             </Routes>
+         
             </Suspense>
           </div>
         </div>
@@ -75,7 +80,7 @@ let AppContainer =  compose(
  let SamuraiJSApp = (props) => {
    return <Provider store={store}>
         <React.StrictMode>
-            <AppContainer state={store.getState()} dispatch={store.dispatch.bind(store)} store={store} />
+            <AppContainer state={store.getState()}  store={store} />
         </React.StrictMode>
     </Provider>
   }

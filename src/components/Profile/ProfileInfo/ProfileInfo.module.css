@@ -9,39 +9,47 @@
 .mainPhotoBlock {
     display: flex;
     align-items: flex-end;
+    width: 100%;
+    justify-content: space-between;
+    /* flex-wrap: wrap; */
 }
 
 .PhotoBlock {
-    width: 150px;
-    height: 150px;
-    margin: 0 5px;
-    overflow: hidden;
-    border-radius: 50%;
+    flex-shrink: 1;
+    /* Растягивается, занимая доступное место */
+    flex-basis: 150px;
+    min-width: 50px;
+    /* Максимальный размер */
+    margin-left: 8px;
+    margin-top: 8px;
 }
 
 .mainPhoto {
-    max-width: 200px;
-    width: auto;
-    height: 100%;
-    margin: 0 auto;
+    width: 100%;
+    /* Заполняет контейнер */
+    height: auto;
+    border-radius: 50%;
+    /* Делаем изображение круглым */
 }
 
-.contact {
-    padding-left: 10px;
-}
+
 
 .profileBlock {
     display: flex;
     flex-direction: column;
 }
 
-.editBlock {}
+.editBlock {
+   display: flex;
+  width: 75%;  
+  justify-content: flex-end;
+} 
 
 .profileData {
     display: flex;
     justify-content: space-between;
-    flex-direction: row-reverse;
-    margin:20px 0;
+    margin: 20px 0;
+    flex-wrap: wrap;
 }
 
 
@@ -58,10 +66,11 @@
     text-decoration: none;
     padding: 8px 20px;
     border-radius: 25px;
-    max-width: 150px;
+    min-width: 113px;
     font-size: 15px;
     font-weight: 700;
-    
+    white-space: nowrap;
+
 }
 
 .editBtn:hover {
@@ -70,3 +79,184 @@
 
 
 
+/* src/Popup.css */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(91, 112, 131, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.popupContent {
+    padding: 0px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    height: 75%;
+    display: flex;
+    width: 100%;
+    background-color: #15202B;
+    overflow: auto;
+    clip-path: inset(0 round 10px);
+    scrollbar-color: rgb(92, 110, 126) rgb(30, 39, 50);
+}
+
+
+.close {
+
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
+.profileDataForm {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 100%;
+}
+
+
+.profileDataForm input[type="text"],
+.profileDataForm textarea {
+    width: 100%;
+    height: 50px;
+    font-weight: 400;
+    border: 0.5px solid #808080;
+    background-color: #15202B;
+    color: white;
+    font-size: 17px;
+    cursor: text;
+    caret-color: auto;
+    border-radius: 5px;
+}
+
+.profileDataForm input:focus,
+.profileDataForm textarea:focus {
+    outline: none;
+    /* Убирает стандартную рамку */
+    border: 2px solid #1DA1F2;
+}
+
+
+
+@media (max-width: 600px) {
+
+    .profileDataForm input,
+    textarea {
+        flex-basis: 100%;
+
+        /* становится 100% ширины при меньшем экране */
+    }
+
+    .popupContent {
+        height: 100%;
+        /* высота 100% при ширине экрана меньше 600px */
+    }
+}
+
+.profilePopupHeader {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.profilePopupHeader svg {
+    height: 20px;
+    fill: rgb(239, 243, 244);
+    margin-right: 67px;
+    padding: 12px;
+    cursor: pointer;
+
+}
+
+.profilePopupHeader svg:hover {
+    background-color: rgba(126, 126, 126, 0.1);
+    border-radius: 50%;
+
+}
+
+.profilePopupHeader>span {
+    margin-right: auto;
+    font-weight: 700;
+    font-style: 20px;
+
+
+}
+
+.profilePopupHeader>button {
+    cursor: pointer;
+    border: 0.5px solid rgb(83, 100, 113);
+    text-decoration: none;
+    border-radius: 25px;
+    min-width: 67px;
+    min-height: 32px;
+    font-size: 15px;
+    font-weight: 600;
+
+}
+
+.fileUpload {
+    position: absolute;
+
+
+
+}
+
+
+
+.customFileLabel {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.customFileLabel:hover {
+    border-color: rgba(0, 0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4)
+}
+
+.customFileLabel svg {
+    width: 24px;
+    height: 24px;
+    fill: currentcolor;
+
+}
+
+.hiddenInput {
+    display: none;
+}
+
+.editPhotoBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 112px;
+    max-height: 112px;
+    position: relative;
+    opacity: 0.75;
+    margin: 10px;
+
+}
+
+.editPhotoBlock .editmainPhoto {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+
+}

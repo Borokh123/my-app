@@ -5,8 +5,7 @@ import MyPostsContainer from './MyPosts/MyPostsContainer'
 import { Navigate } from 'react-router-dom'
 
 const Profile = (props) => {
- 
-
+  
     return (
         <div className={s.profile}>
             <ProfileInfo
@@ -18,7 +17,7 @@ const Profile = (props) => {
                 saveProfile = {props.saveProfile}
                  />
                 
-            <MyPostsContainer store={props.store} />
+            <MyPostsContainer />
         </div>
     )
 }

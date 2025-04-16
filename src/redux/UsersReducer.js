@@ -87,7 +87,7 @@ export const requestUsers = (currentPage, pageSize) => { // ф-я котороя
         dispatch(setCurrentPage(currentPage));
         let data = await usersAPI.getUsers(currentPage, pageSize);
         dispatch(toogleIsFetching(false));
-        dispatch(setUsers(data.items))
+        dispatch(setUsers(data.items));
         dispatch(setTotalUsersCount(data.totalCount)) // колбэки приходят из mapDispatch to props
     }
 }

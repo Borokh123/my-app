@@ -9,6 +9,8 @@ const ProfileStatusWithHooks = (props) => { // локальный стейт ж�
     }, [props.status]);
 
     const activateEditMode = () => {
+
+        if (props.isOwner)
         setEditMode(true);
     }
 
@@ -21,8 +23,9 @@ const ProfileStatusWithHooks = (props) => { // локальный стейт ж�
 
 
     }
-    {
+    
         return (
+            
             <div>
                 {!editMode &&
                     <div>
@@ -36,7 +39,7 @@ const ProfileStatusWithHooks = (props) => { // локальный стейт ж�
                 }
             </div>
         )
-    }
+    
 }
 
 export default ProfileStatusWithHooks

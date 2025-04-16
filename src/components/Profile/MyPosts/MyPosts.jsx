@@ -7,10 +7,11 @@ import FormControl from '../../common/FormsControls/FormsControls'
 
 // window.props = [];
 const MyPosts = React.memo(props => {
+
   console.log('RENDER');
 //   window.props.push(props);
 //   console.log(props);
-  let postElements = props.posts.map(p => <Post key = {p.id} message={p.message} like={p.like} />);
+  let postElements = props.posts.map(p => <Post key = {p.id} message={p.message} like={p.like} profile = {props.profile} />);
   let newPostElement = React.createRef();
 
   let onAddPost = values => {
@@ -50,10 +51,10 @@ const AddPostForm = (props) => {
         <form onSubmit={props.handleSubmit} >
             <div>
                 {/* <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}></textarea> */}
-                <Field child='textarea' component={FormControl} name="newPostText" placeholder="Enter your post" validate={[required, maxLength10]} />
+                <Field className={s.addPost} child='textarea' component={FormControl} name="newPostText" placeholder="What's happening?!" validate={[required, maxLength10]} />
             </div>
-            <div>
-                <button>add post</button>
+            <div className={s.submitBlock}>
+                <button>Post</button>
             </div>
 
         </form>

@@ -1,12 +1,14 @@
-import React from 'react'
-import preloader from '../../../assets/images/image_processing20210909-1071-3qgygb.gif'
+import React from 'react';
+import preloader from '../../../assets/images/loading.gif';
+import styles from './Preloader.module.css'; // Подключаем CSS файл
 
-const Preloader = (props) => {
+
+const Preloader = () => {
   return (
-    <div>
-        <img src={preloader}/>
+    <div className={styles.preloaderOverlay}>
+      <img src={preloader} alt="Loading..." className={styles.preloaderImg} />
     </div>
-  )
-}
+  );
+};
 
-export default Preloader
+export default Preloader;

@@ -11,10 +11,10 @@ const SAVE_PHOTO_SUCCESS = 'SAVE_PHOTO_SUCCESS'
 
 let initialState = {
     posts: [
-        { id: 1, message: 'Hello', like: '5' },
-        { id: 2, message: 'How are you', like: '6' },
-        { id: 3, message: 'Nice to meet you', like: '7' },
-        { id: 4, message: 'How are you doing', like: '8' },
+        { id: 1, message: 'Hello!!', like: '5' },
+        { id: 2, message: 'How are you?!', like: '6' },
+        { id: 3, message: 'Nice to meet you!', like: '7' },
+        { id: 4, message: 'How are you doing!', like: '8' },
 
     ],
     // newPostText: 'it-kamasutra.com',

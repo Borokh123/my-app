@@ -19,7 +19,6 @@ const Dialogs = (props) => {
   if (!props.isAuth) return <Navigate to={"/login"} />
   let dialogsElements = state.dialogs.map((d) => <DialogItem name={d.name} id={d.id} />)
   let messagesElement = state.messages.map((m) => <Message message={m.message} id={m.id} />)
-  debugger;
   return (
     <div className={s.dialogs}>
       <div className={s.dialogItems}>
