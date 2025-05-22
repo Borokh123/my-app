@@ -38,6 +38,7 @@
     max-width: 150px;
     cursor: pointer;
     display: flex;
+    box-sizing: content-box;
 
 }
 

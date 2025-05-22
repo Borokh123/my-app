@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { FC } from 'react'
 import s from './Post.module.css'
 import UserPhoto from './../../../../assets/images/userPng.png'
-
-const Post = (props) => {
+import { ProfileType } from '../../../../types/types'
+type PropsType = {
+    message: string
+    like?: number
+    profile: ProfileType | null
+}
+const Post:FC<PropsType> = (props) => {
 
     if (!props.profile) {
         // Если данные profile еще не загружены, возвращаем null или заглушку
@@ -14,7 +19,7 @@ const Post = (props) => {
 
         <div className={s.item}>
             <div className={s.messageBlock}>
-            <img src={props.profile.photos.small || UserPhoto} alt="" className={s.mainPhoto} alt="" />
+            <img src={props.profile.photos.small || UserPhoto} alt="" className={s.mainPhoto} />
             </div>
             <div className={s.messageBlock}>
             <span className={s.fullName}>{props.profile.fullName}</span>  

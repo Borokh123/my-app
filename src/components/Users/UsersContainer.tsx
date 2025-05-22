@@ -5,42 +5,50 @@ import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 import { compose } from 'redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../redux/UsersSelectors.js';
+import { getCurrentPage, getFollowingInProgress, getIsFetching, getPageSize, getTotalUsersCount, getUsers } from '../../redux/UsersSelectors';
+import { AppStateType } from '../../redux/ReduxStore';
 
-class UsersContainer extends React.Component {
-  // constructor(props) { // если конструктор  не делает ничего кроме того как перебрасывание в супер класса от которого он наследуется, то его можна не писать
-  //     super(props);
-  // }
+type mapStatePropsType = {
+  currentPage: number
+  pageSize: number
+  totalUsersCount: number
+  users: Array<any>
+  isFetching: boolean
+  followingInProgress: Array<number>  
+}
+
+type mapDispatchPropsType = {
+  follow: (userId: number) => void
+  unfollow: (userId: number) => void
+  setCurrentPage: (pageNumber: number) => void
+  toogleFollowingProgress: (isFetching: boolean, userId: number) => void
+  requestUsers: (currentPage: number, pageSize: number) => void  
+}
+
+type ownPropsType = {
+  pageTitle: string
+}
+
+
+type propsType = mapStatePropsType & mapDispatchPropsType & ownPropsType
+class UsersContainer extends React.Component<propsType> {
+  
 
   componentDidMount() {
     this.props.requestUsers(this.props.currentPage, this.props.pageSize); // не thunk creator попадает сюда, а callback
-    // this.props.toogleIsFetching(true);
-    // usersAPI.requestUsers(this.props.currentPage, this.props.pageSize).then(data => {
-
-    //   this.props.toogleIsFetching(false);
-    //   this.props.setUsers(data.items) // компонента, она работает через колбэки и постоянно берет у пропсов что нибудь
-    //   this.props.setTotalUsersCount(data.totalCount) // колбэки приходят из mapDispatch to props
-    // });
+    
   }
-  // requestUsers = () => {
-
-  // }
-  onPageChanged = (pageNumber) => {
+ 
+  onPageChanged = (pageNumber:number) => {
     this.props.requestUsers(pageNumber, this.props.pageSize);
-    // this.props.setCurrentPage(pageNumber);
-    // this.props.toogleIsFetching(true);
-
-    // usersAPI.requestUsers(pageNumber, this.props.pageSize).then(data => {
-    //   this.props.toogleIsFetching(false);
-    //   this.props.setUsers(data.items)
-
-    // });
+   
   }
 
   render() {
  console.log ('RENDER USERS');
     return (
       <>
+        <h2>{this.props.pageTitle}</h2>
         {this.props.isFetching ? <Preloader /> : null}
         <Users
           totalUsersCount={this.props.totalUsersCount}
@@ -63,8 +71,8 @@ class UsersContainer extends React.Component {
 
 
 
-const mapStateToProps = (state) => { // из стейта достает данные
-    console.log ('mapStateToProps users');
+const mapStateToProps = (state:AppStateType):mapStatePropsType => { // из стейта достает данные
+   
   return {
     
     users: getUsers(state), // импорт из UserSelectors
@@ -112,8 +120,8 @@ const mapStateToProps = (state) => { // из стейта достает дан�
 // }
 
 export default compose(
-  // withAuthRedirect,
-  connect(mapStateToProps, {                                 // каждый callback диспатчит что то в store
+ withAuthRedirect,
+  connect <mapStatePropsType, mapDispatchPropsType, ownPropsType, AppStateType>(mapStateToProps, {                                 // каждый callback диспатчит что то в store
     setCurrentPage,
     toogleFollowingProgress,
     follow,
@@ -131,7 +139,33 @@ export default compose(
 //   toogleFollowingProgress,
 //   follow,
 //   unfollow,
-//   requestUsers
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//   requestUsers+666666666666666666666666666666666666666666
+
 
 // })(UsersContainer); // закидываем пропсы с помощью этих супер ф-й
 //Мы диспатчим то что нам возвращает вызов ActionCreator

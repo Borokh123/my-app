@@ -5,21 +5,50 @@ import { getStatus, getUserProfile, savePhoto, saveProfile, updateStatus } from 
 import { useParams } from 'react-router-dom';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
 import { compose } from 'redux';
+import { AppStateType } from '../../redux/ReduxStore';
 
-// перед классовой компонентой ProfileContainer
+type mapStatePropsType = {
+    profile:  object | null
+    status: string
+    authorizedUserId: number | null
+    isAuth: boolean
+}
 
-export function withRouter(Children) {
-    return (props) => {
-        const match = { params: useParams() };
-        return <Children {...props} match={match} />
+type mapDispatchPropsType = {
+    getUserProfile: (userId: number) => void
+    getStatus: (userId: number) => void
+    updateStatus: (status: string) => void
+    savePhoto: (file: File) => void
+    saveProfile: (profile: object) => Promise<any>
+}
+
+type ownPropsType = {
+    match: {
+        params: {
+            userId: number
+        }
     }
 }
 
-class ProfileContainer extends React.Component {
+type propsType = mapStatePropsType & mapDispatchPropsType & ownPropsType
+interface WithRouterProps {
+    match: {
+        params: Record<string, string | undefined>;
+    };
+}
+
+export function withRouter<P extends WithRouterProps>(Children: React.ComponentType<P>) {
+    return (props: Omit<P, keyof WithRouterProps>) => {
+        const match = { params: useParams<Record<string, string>>() };
+        return <Children {...(props as P)} match={match} />;
+    };
+}
+
+class ProfileContainer extends React.Component<propsType> {
     refreshProfile() {
         let userId = this.props.match.params.userId;
         if (!userId) {
-            userId = this.props.authorizedUserId;
+            userId = this.props.authorizedUserId || 0; // Provide a fallback value
             // if (!userId) {
             //     this.props.push("/login");
             // }
@@ -34,7 +63,7 @@ class ProfileContainer extends React.Component {
 
 
     }
-    componentDidUpdate(prevProps, prevState, snapshot) { // срабатывает при каждом изминении пропсов (срабатывает если происходят изм в локальном сторе в локальном state)
+    componentDidUpdate(prevProps: propsType, prevState: any, snapshot?: any) { // срабатывает при каждом изминении пропсов (срабатывает если происходят изм в локальном сторе в локальном state)
         if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.refreshProfile();
         }
@@ -57,7 +86,7 @@ class ProfileContainer extends React.Component {
     }
 }
 
-let mapStateToProps = (state) => {
+let mapStateToProps = (state:AppStateType):mapStatePropsType => {
     // console.log ('mapStateToProps PROFILE');
     return ({
         profile: state.profilePage.profile,

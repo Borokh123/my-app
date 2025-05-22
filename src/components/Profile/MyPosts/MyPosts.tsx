@@ -1,27 +1,36 @@
-import React from 'react'
+import React, { FC } from 'react'
 import s from './MyPosts.module.css'
 import Post from './Post/Post'
 import { Field, reduxForm } from 'redux-form'
 import { maxLengthCreator, required } from '../../../utils/validators/validators'
 import FormControl from '../../common/FormsControls/FormsControls'
-
+import { PostType, ProfileType } from '../../../types/types'
+type PropsType = {
+  posts: Array<PostType>
+  addPost: (newPostText: string) => void
+  newPostText: string
+  profile: ProfileType| null
+  
+}
 // window.props = [];
-const MyPosts = React.memo(props => {
+const MyPosts:FC<PropsType> = React.memo(props => {
 
   console.log('RENDER');
 //   window.props.push(props);
 //   console.log(props);
   let postElements = props.posts.map(p => <Post key = {p.id} message={p.message} like={p.like} profile = {props.profile} />);
-  let newPostElement = React.createRef();
+  let newPostElement = React.createRef<HTMLTextAreaElement>();
 
-  let onAddPost = values => {
+  let onAddPost = (values: any) => {
     props.addPost(values.newPostText);
   };
 
-  let onPostChange = () => {
-    let text = newPostElement.current.value;
-    props.updateNewPostText(text);
-  };
+  // let onPostChange = () => {
+  //   if (newPostElement.current) {
+  //       let text = newPostElement.current.value;
+  //       props.updateNewPostText(text);
+  //   }
+  // };
 
   return (
    <div className={s.PostsBlock}>
@@ -46,7 +55,7 @@ const MyPosts = React.memo(props => {
   )
 });
 const maxLength10 = maxLengthCreator(10)
-const AddPostForm = (props) => {
+const AddPostForm = (props:any) => {
     return (
         <form onSubmit={props.handleSubmit} >
             <div>

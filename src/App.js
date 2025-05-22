@@ -47,7 +47,7 @@ class App extends Component {
               {/* this.props - match - params,path, url */}
               <Route path="/" element={<Navigate to="/profile"/>} />
               <Route path='/profile/:userId?' element={<ProfileContainer />} />
-              <Route path='/users/' element={<UsersContainer />} />
+              <Route path='/users/' element={<UsersContainer pageTitle = {'Самураи'} />} />
               <Route path='/dialogs/*' element={<DialogsContainer />} />
               <Route path='/news' Component={News} />
               <Route path='/music' Component={Music} />

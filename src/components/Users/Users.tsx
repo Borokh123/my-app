@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styles from './users.module.css'
 import UserPhoto from '../../assets/images/userPng.png'
 import { NavLink } from 'react-router-dom';
@@ -6,8 +6,20 @@ import axios from 'axios';
 import { usersAPI } from '../../api/api';
 import Paginator from '../common/Paginator/Paginator';
 import FollowBtn from './FollowBtn';
-const Users = (props) => {
-
+import { UserType } from '../../types/types';
+type PropsType = {
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    users: Array<UserType>
+    followingInProgress: Array<number>
+    onPageChanged: (pageNumber: number) => void
+    unfollow: (userId: number) => void
+    follow: (userId: number) => void
+        
+}
+const Users: FC<PropsType> = (props) => {
+    
     return (
         <div>
             <Paginator totalUsersCount={props.totalUsersCount} pageSize={props.pageSize} currentPage={props.currentPage} onPageChanged={props.onPageChanged} portionSize={15} />          {

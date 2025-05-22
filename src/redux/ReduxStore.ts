@@ -20,10 +20,22 @@ let redusers = combineReducers({
 
 });
 
+type ReducerType = typeof redusers
+export type AppStateType = ReturnType<ReducerType>
 
- const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+// Extend the Window interface to include __REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
  const store = legacy_createStore(redusers, composeEnhancers(applyMiddleware(thunk)));
 
 // let store = legacy_createStore(redusers, applyMiddleware(thunk));
-// window.__Storage__ = store;
+// @ts-ignore
+window.__Storage__ = store;
 export default store;

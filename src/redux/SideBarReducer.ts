@@ -6,7 +6,8 @@ let initialState = {
 
   ]
 };
-const SideBarReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState; // типизация начального состояния
+const SideBarReducer = (state = initialState, action:any):InitialStateType => {
   return state;
 }
 export default SideBarReducer;

@@ -124,6 +124,15 @@
     flex-basis: 100%;
 }
 
+.profileDataForm::after {
+    content: "";
+    display: block;
+    height: 20px;
+    flex-shrink: 0;
+    
+}
+
+
 
 .profileDataForm input[type="text"],
 .profileDataForm textarea {

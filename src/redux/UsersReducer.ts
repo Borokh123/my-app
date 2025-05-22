@@ -1,5 +1,5 @@
 import { usersAPI } from "../api/api";
-
+import { PhotosType, UserType } from "../types/types";
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -10,19 +10,23 @@ const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
 
 
 
+
+
+
+
 let initialState = {
-    users: [],
+    users: [] as Array<UserType>,
     pageSize: 25,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    followingInProgress: [],
-    fake: 10
+    followingInProgress: [] as Array<number>, // массив юзеров которые подписаны на юзера
+
 
 }
-const UsersReducer = (state = initialState, action) => {
+export type InitialStateType = typeof initialState;
+const UsersReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
-        case 'FAKE': return { ...state, fake: state.fake + 1 }
         case FOLLOW:
             return {
                 ...state,
@@ -71,18 +75,48 @@ const UsersReducer = (state = initialState, action) => {
 //----------------
 //ActionCreators
 //-----------------
-export const followSucces = (userId) => ({ type: FOLLOW, userId })//фигурные скобки в стрелочной ф-ии означает тело ф-ии но мы избавились от тела ф-ии. Это обьект, мы создали для этого нужно обернуть в круглые скобки
-export const unfollowSucces = (userId) => ({ type: UNFOLLOW, userId })
-export const setUsers = (users) => ({ type: SET_USERS, users })
-export const setCurrentPage = (currentPage) => ({ type: SET_CURRENT_PAGE, currentPage: currentPage }) // Принимает текущую страницу которую нужно установить и будет возвращать обьект у которого в качестве типа
-export const setTotalUsersCount = (totalUsersCount) => ({ type: SET_TOTAL_USERS_COUNT, count: totalUsersCount }) // будет SET_CURRENT_PAGE, а в качестве значения currentPage
-export const toogleIsFetching = (isFetching) => ({ type: TOOGLE_IS_FETCHING, isFetching: isFetching })
-export const toogleFollowingProgress = (isFetching, userId) => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching: isFetching, userId })
+
+type FollowSuccessActionType = {
+    type: typeof FOLLOW
+    userId: number
+}
+export const followSucces = (userId: number): FollowSuccessActionType => ({ type: FOLLOW, userId })//фигурные скобки в стрелочной ф-ии означает тело ф-ии но мы избавились от тела ф-ии. Это обьект, мы создали для этого нужно обернуть в круглые скобки
+type unfollowSuccesActionType = {
+    type: typeof UNFOLLOW
+    userId: number
+}
+export const unfollowSucces = (userId: number): unfollowSuccesActionType => ({ type: UNFOLLOW, userId })
+type setUsersActionType = {
+    type: typeof SET_USERS
+    users: Array<UserType>
+}
+export const setUsers = (users: Array<UserType>): setUsersActionType => ({ type: SET_USERS, users })
+type setCurrentPageActionType = {
+    type: typeof SET_CURRENT_PAGE
+    currentPage: number
+}
+export const setCurrentPage = (currentPage: number): setCurrentPageActionType => ({ type: SET_CURRENT_PAGE, currentPage: currentPage }) // Принимает текущую страницу которую нужно установить и будет возвращать обьект у которого в качестве типа
+type setTotalUsersCountActionType = {
+    type: typeof SET_TOTAL_USERS_COUNT
+    count: number
+}
+export const setTotalUsersCount = (totalUsersCount: number): setTotalUsersCountActionType => ({ type: SET_TOTAL_USERS_COUNT, count: totalUsersCount }) // будет SET_CURRENT_PAGE, а в качестве значения currentPage
+type toogleIsFetchingActionType = {
+    type: typeof TOOGLE_IS_FETCHING
+    isFetching: boolean
+}
+export const toogleIsFetching = (isFetching: boolean): toogleIsFetchingActionType => ({ type: TOOGLE_IS_FETCHING, isFetching: isFetching })
+type toogleFollowingProgressActionType = {
+    type: typeof TOGGLE_IS_FOLLOWING_PROGRESS
+    isFetching: boolean
+    userId: number
+}
+export const toogleFollowingProgress = (isFetching: boolean, userId: number): toogleFollowingProgressActionType => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching: isFetching, userId })
 
 // Thunks это ф-я которая диспатчит екшены внутри себя и делает асинхронную 
 
-export const requestUsers = (currentPage, pageSize) => { // ф-я котороя может что то принимать и которая возвращает санку
-    return async (dispatch) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const requestUsers = (currentPage: number, pageSize: number) => { // ф-я котороя может что то принимать и которая возвращает санку
+    return async (dispatch: any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         dispatch(toogleIsFetching(true));      // передаем параметры currentPage, pageSize и потом наша ф-я Санк может может к ним достучаться 
         dispatch(setCurrentPage(currentPage));
         let data = await usersAPI.getUsers(currentPage, pageSize);
@@ -116,8 +150,8 @@ export const requestUsers = (currentPage, pageSize) => { // ф-я котороя
 
 
 
-export const follow = (userId) => { // ф-я котороя может что то принимать и которая возвращает санку
-    return async (dispatch) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const follow = (userId: number) => { // ф-я котороя может что то принимать и которая возвращает санку
+    return async (dispatch: any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         dispatch(toogleFollowingProgress(true, userId));
         let response = await usersAPI.follow(userId);
         if (response.data.resultCode === 0) {
@@ -128,8 +162,8 @@ export const follow = (userId) => { // ф-я котороя может что т
     }
 }
 
-export const unfollow = (userId) => { // ф-я котороя может что то принимать и которая возвращает санку
-    return async (dispatch) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const unfollow = (userId: number) => { // ф-я котороя может что то принимать и которая возвращает санку
+    return async (dispatch: any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         dispatch(toogleFollowingProgress(true, userId));
         let response = await usersAPI.unfollow(userId)
         if (response.data.resultCode === 0) {

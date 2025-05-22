@@ -17,3 +17,8 @@ div {
   caret-color: transparent;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}

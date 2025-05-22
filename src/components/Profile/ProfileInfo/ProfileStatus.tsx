@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 
-class ProfileStatus extends React.Component { // локальный стейт живет имеено в классовой компоненте так обьект он есть и он живет и в нем можно что то хранить, в функц. визвалась потом исчезла
+type PropsType = {
+    status:string
+    updateStatus:(status:string)=>void
+}
+
+type StateType = {
+    editMode:boolean
+    status:string
+}
+class ProfileStatus extends React.Component<PropsType, StateType> { // локальный стейт живет имеено в классовой компоненте так обьект он есть и он живет и в нем можно что то хранить, в функц. визвалась потом исчезла
     state = {
         editMode: false,
         status: this.props.status
@@ -21,12 +30,12 @@ class ProfileStatus extends React.Component { // локальный стейт �
         })
         this.props.updateStatus(this.state.status);
     }
-    onStatusChange = (e) => {
+    onStatusChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             status: e.currentTarget.value
         })
     }
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps:PropsType, prevState:StateType) { // когда компонент обновился
 
         // if (prevProps.status!=this.props.status) {
         //     this.setState({

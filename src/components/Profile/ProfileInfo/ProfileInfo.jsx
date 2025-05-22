@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { FC, useState } from 'react'
 import s from './ProfileInfo.module.css'
 import Preloader from '../../common/Preloader/Preloader'
 import ProfileStatusWithHooks from './ProfileStatusWithHooks'
 import UserPhoto from '../../../assets/images/userPng.png'
-import ProfileDataFormReduxForm from '../ProfileDataForm'
+import ProfileDataForm from '../ProfileDataForm'
 import Popup from './Popup'
 import FollowBtn from '../../Users/FollowBtn'
+
+
+
 
 
 const ProfileInfo = (props) => {
@@ -16,24 +19,21 @@ const ProfileInfo = (props) => {
         return <Preloader />
     }
 
-    const onMainPhotoSelected = (e) => {
-        if (e.target.files.length) {
-            props.savePhoto(e.target.files[0])
-
-        }
-    }
-    const onSubmit = (formData) => {
+    // const onMainPhotoSelected: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    //     if (e.target.files && e.target.files.length) {
+    //         props.savePhoto(e.target.files[0])
+    //     }
+    // }
+    const onSubmit = (formData)=> {
         props.saveProfile(formData)
             .then(
                 () => {
                     setEditMode(false);
 
                 })
-            .catch(error => {
-
+            .catch((error) => {
                 console.error('Ошибка при сохранении профиля:', error);
             });
-
     };
 
 
@@ -45,14 +45,14 @@ const ProfileInfo = (props) => {
             <div className={s.descriptionBlock}>
                 <div className={s.mainPhotoBlock}>
                     <div className={s.PhotoBlock}>
-                    {/* {props.isOwner && <FollowBtn/>} */}
+                        {/* {props.isOwner && <FollowBtn/>} */}
                         <img src={props.profile.photos.large || UserPhoto} alt="" className={s.mainPhoto} />
                     </div>
                     {props.isOwner && <div className={s.editBlock}><button className={s.editBtn} type="button" onClick={() => { setEditMode(!editMode) }}>Edit profile</button></div>}
                     {/* {props.isOwner && <input type={"file"} onChange={onMainPhotoSelected} />}   */}
                 </div>
                 {editMode
-                    ? <ProfileDataFormReduxForm initialValues={props.profile} profile={props.profile} onSubmit={onSubmit} isOpen={editMode} onClose={() => { setEditMode(!editMode) }} savePhoto={props.savePhoto} isOwner={props.isOwner} />
+                    ? <ProfileDataForm initialValues={props.profile} profile={props.profile} onSubmit={onSubmit} isOpen={editMode} onClose={() => { setEditMode(!editMode) }} savePhoto={props.savePhoto} isOwner={props.isOwner}  />
                     : <ProfileData goToEditMode={() => { setEditMode(!editMode) }} profile={props.profile} isOwner={props.isOwner} />}
                 <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus} isOwner={props.isOwner} />
 
@@ -60,7 +60,10 @@ const ProfileInfo = (props) => {
         </div>
     )
 }
-const ProfileData = ({ profile, isOwner, goToEditMode }) => {
+const ProfileData: FC = ({ profile }) => {
+    if (!profile) {
+        return null; // or handle the null case appropriately
+    }
     return <div className={s.profileData}>
         {/* {isOwner && <div className={s.editBlock}><button className={s.editBtn} type="button" onClick={goToEditMode}>Edit profile</button></div>} */}
         <div className={s.profileBlock}>
