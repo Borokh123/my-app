@@ -4,6 +4,8 @@ import { maxLengthCreator, required } from '../../utils/validators/validators'
 import FormControl from '../common/FormsControls/FormsControls';
 const maxLength50 = maxLengthCreator(50);
 const AddMessageForm = (props) => {
+  console.log("handleSubmit в AddMessageForm:", props.handleSubmit);
+
     return (
       <form onSubmit={props.handleSubmit} className={s.newMessage}>
 

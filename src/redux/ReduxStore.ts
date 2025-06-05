@@ -33,7 +33,12 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
- const store = legacy_createStore(redusers, composeEnhancers(applyMiddleware(thunk)));
+//  const store = legacy_createStore(redusers, composeEnhancers(applyMiddleware(thunk)));
+const store = legacy_createStore(
+    redusers,
+    undefined,
+    composeEnhancers(applyMiddleware(thunk))
+);
 
 // let store = legacy_createStore(redusers, applyMiddleware(thunk));
 // @ts-ignore

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ProfileType } from "../types/types";
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.0/',
     withCredentials: true,
@@ -16,10 +17,10 @@ export const usersAPI = {
             });
     },
     //здесь пропсов нет поєтому ф-я получает єти данные из параметров, пускай передаст тот кото вызывает эту ф-ю
-    follow(userId) {
+    follow(userId: number) {
         return instance.post(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`)
     },
-    unfollow(userId) {
+    unfollow(userId: number) {
         return instance.delete(`https://social-network.samuraijs.com/api/1.0/follow/${userId}`)
     }
     // getProfile(userId) {
@@ -31,20 +32,20 @@ export const usersAPI = {
 }
 export const profileAPI = {
 
-    getProfile(userId) {
+    getProfile(userId: number) {
         return instance.get(`profile/` + userId)
         // .then(response => {
         //     return response.data //возвращаем только data
         // });
 
     },
-    getStatus(userId) {
+    getStatus(userId: number) {
         return instance.get(`profile/status/` + userId)
     },
-    updateStatus(status) {
+    updateStatus(status: string) {
         return instance.put(`profile/status`, { status: status })
     },
-    savePhoto(photoFile) {
+    savePhoto(photoFile: any) {
         const formData = new FormData();
         formData.append("image", photoFile);
         return instance.put(`profile/photo`, formData, {
@@ -54,36 +55,71 @@ export const profileAPI = {
         });
     },
 
-    saveProfile(profile) {
-        return instance.put(`profile`, profile )
+    saveProfile(profile: ProfileType) {
+        return instance.put(`profile`, profile)
     }
 
 }
 
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1,
+   
+}
+export enum ResultCodeForCaptchaEnum {
+    CaptchaIsRequired = 10
+}
+
+
+
+type meResponseType = {
+    data: {
+        id: number
+        email: string
+        login: string
+    }
+    resultCode: ResultCodesEnum
+    messages: Array<string>
+}
+type loginResponseType = {
+    data: {
+        userId: number
+
+    }
+    resultCode: ResultCodesEnum | ResultCodeForCaptchaEnum
+    messages: Array<string>
+}
+type logoutResponseType = {
+    data: {
+
+    }
+    resultCode: ResultCodesEnum 
+    messages: Array<string>
+}
 
 export const authAPI = {
-    me() {
-        return instance.get(`auth/me`)
+    me() {                              // метод get post put являеться дженериками
+        return instance.get<meResponseType>(`auth/me`).then(res => res.data) // get возвращает промис, а в промисе будет лежать ответ от сервера
         // .then(response => {
         //     return response.data
         // });
     },
-    login(email, password, rememberMe = false, captcha = null) {
-        return instance.post(`auth/login`, { email, password, rememberMe, captcha });
+    login(email: string, password: string, rememberMe = false, captcha: null | string = null) {
+        return instance.post<loginResponseType>(`auth/login`, { email, password, rememberMe, captcha }).then(res => res.data);
 
     },
     logout() {
-        return instance.delete(`auth/login`);
+        return instance.delete<logoutResponseType>(`auth/login`).then(res => res.data);;
 
     }
 
 }
-
+//instance.get<string>(`auth/me`).then((res) => res.data.toUpperCase()); // пример использования дженерика
 
 export const securityAPI = {
     getCaptchaUrl() {
         return instance.get(`security/get-captcha-url`)
-       
+
     }
 
 }

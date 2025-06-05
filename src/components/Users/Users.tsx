@@ -57,8 +57,6 @@ const Users: FC<PropsType> = (props) => {
                     followingInProgress={props.followingInProgress}
                     follow={props.follow}
                     unfollow={props.unfollow}
-                    
-                    
                     />
 
 

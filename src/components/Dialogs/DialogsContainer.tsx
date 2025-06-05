@@ -1,21 +1,27 @@
 import React from 'react'
-import { addMessageActionCreator } from '../../redux/DialogsReducer'
+import { addMessageActionCreator, addMessageActionCreatorType } from '../../redux/DialogsReducer'
 import Dialogs from './Dialogs'
 import { connect } from 'react-redux';
 import { withAuthRedirect } from '../../hoc/withAuthRedirect';
-import { compose } from 'redux';
+import { compose, Dispatch } from 'redux';
+import { AppStateType } from '../../redux/ReduxStore';
 
 
-let mapStateToProps = (state) => {
+type mapDispatchPropsType = {
+  sendMessage: (newMessageBody: string) => void
+}
+
+
+let mapStateToProps = (state:AppStateType) => {
   return {
     dialogsPage: state.dialogsPage,
     }
 }
 
-let mapDispatchToProps = (dispatch) => {
+let mapDispatchToProps = (dispatch:Dispatch<addMessageActionCreatorType>):mapDispatchPropsType => {
   return {
     
-    sendMessage: (newMessageBody) => {
+    sendMessage: (newMessageBody:string) => {
       dispatch(addMessageActionCreator(newMessageBody));
     }
   }
@@ -27,7 +33,7 @@ let mapDispatchToProps = (dispatch) => {
 
 // const DialogsContainer = connect(mapStateToProps, mapDispatchToProps) (AuthRedirectComponent);
 // export default DialogsContainer
-export default compose(
+export default compose<React.ComponentType>(
   connect(mapStateToProps, mapDispatchToProps),
   withAuthRedirect
 )(Dialogs)  //Возьми диалогс -> закинь в ф-ю withAuthRedirect -> получи результат и рез-тат закинь в connect(mapStateToProps, mapDispatchToProps) 

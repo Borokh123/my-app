@@ -1,5 +1,8 @@
+import { Dispatch } from "redux";
 import { usersAPI } from "../api/api";
 import { PhotosType, UserType } from "../types/types";
+import { AppStateType } from "./ReduxStore";
+import { ThunkAction } from "redux-thunk";
 const FOLLOW = 'FOLLOW';
 const UNFOLLOW = 'UNFOLLOW';
 const SET_USERS = 'SET_USERS';
@@ -7,10 +10,6 @@ const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
 const TOOGLE_IS_FETCHING = 'TOOGLE_IS_FETCHING';
 const TOGGLE_IS_FOLLOWING_PROGRESS = 'TOGGLE_IS_FOLLOWING_PROGRESS'
-
-
-
-
 
 
 
@@ -25,7 +24,7 @@ let initialState = {
 
 }
 export type InitialStateType = typeof initialState;
-const UsersReducer = (state = initialState, action: any): InitialStateType => {
+const UsersReducer = (state = initialState, action: ActionsTypes): InitialStateType => {
     switch (action.type) {
         case FOLLOW:
             return {
@@ -62,8 +61,9 @@ const UsersReducer = (state = initialState, action: any): InitialStateType => {
             return {
                 ...state, followingInProgress: action.isFetching //isFatching просто меняет знаечение на True
                     ? [...state.followingInProgress, action.userId]
-                    : [state.followingInProgress.filter(id => id !== action.userId)]
-            }
+                    : state.followingInProgress.filter(id => id !== action.userId)
+                    
+            }   
 
 
         default:                                                 // у action должно быть свойство currentPage
@@ -75,6 +75,7 @@ const UsersReducer = (state = initialState, action: any): InitialStateType => {
 //----------------
 //ActionCreators
 //-----------------
+type ActionsTypes = FollowSuccessActionType | unfollowSuccesActionType | setUsersActionType | setCurrentPageActionType | setTotalUsersCountActionType | toogleIsFetchingActionType | toogleFollowingProgressActionType
 
 type FollowSuccessActionType = {
     type: typeof FOLLOW
@@ -114,9 +115,12 @@ type toogleFollowingProgressActionType = {
 export const toogleFollowingProgress = (isFetching: boolean, userId: number): toogleFollowingProgressActionType => ({ type: TOGGLE_IS_FOLLOWING_PROGRESS, isFetching: isFetching, userId })
 
 // Thunks это ф-я которая диспатчит екшены внутри себя и делает асинхронную 
+type GetStateType = () => AppStateType; // типизация getState
+type DispatchType = Dispatch<ActionsTypes>; // типизация dispatch
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
 
-export const requestUsers = (currentPage: number, pageSize: number) => { // ф-я котороя может что то принимать и которая возвращает санку
-    return async (dispatch: any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const requestUsers = (currentPage: number, pageSize: number):ThunkType => { // ф-я котороя может что то принимать и которая возвращает санку
+    return async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         dispatch(toogleIsFetching(true));      // передаем параметры currentPage, pageSize и потом наша ф-я Санк может может к ним достучаться 
         dispatch(setCurrentPage(currentPage));
         let data = await usersAPI.getUsers(currentPage, pageSize);
@@ -150,8 +154,8 @@ export const requestUsers = (currentPage: number, pageSize: number) => { // ф-�
 
 
 
-export const follow = (userId: number) => { // ф-я котороя может что то принимать и которая возвращает санку
-    return async (dispatch: any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const follow = (userId: number):ThunkType => { // ф-я котороя может что то принимать и которая возвращает санку
+    return async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         dispatch(toogleFollowingProgress(true, userId));
         let response = await usersAPI.follow(userId);
         if (response.data.resultCode === 0) {
@@ -162,8 +166,8 @@ export const follow = (userId: number) => { // ф-я котороя может �
     }
 }
 
-export const unfollow = (userId: number) => { // ф-я котороя может что то принимать и которая возвращает санку
-    return async (dispatch: any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const unfollow = (userId: number):ThunkType => { // ф-я котороя может что то принимать и которая возвращает санку
+    return async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         dispatch(toogleFollowingProgress(true, userId));
         let response = await usersAPI.unfollow(userId)
         if (response.data.resultCode === 0) {

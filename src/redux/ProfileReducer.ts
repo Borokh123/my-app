@@ -1,7 +1,10 @@
-import { stopSubmit } from "redux-form";
+import { FormAction, stopSubmit } from "redux-form";
 import { profileAPI, usersAPI } from "../api/api";
 import { profile } from "console";
 import { PhotosType, PostType, ProfileType } from "../types/types";
+import { AppStateType } from "./ReduxStore";
+import { Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
 
 
 const ADD_POST = 'ADD-POST';
@@ -66,6 +69,8 @@ const ProfileReducer = (state = initialState, action: any): InitialStateType => 
             return state;
     }
 }
+
+type ActionsTypes = AddPostActionCreatorType | SetUserProfileActionType | SetStatusActionType | DeletePostActionType | SavePhotoSuccessActionType| FormAction; // объединяем типы экшенов в один тип
 type AddPostActionCreatorType = {
     type: typeof ADD_POST
     newPostText: string
@@ -86,6 +91,7 @@ type DeletePostActionType = {
     postId:number
 }
 export const deletePost = (postId:number):DeletePostActionType => ({ type: DELETE_POST, postId })
+
 type SavePhotoSuccessActionType = {
     type: typeof SAVE_PHOTO_SUCCESS
     photos: PhotosType
@@ -94,42 +100,50 @@ type SavePhotoSuccessActionType = {
 export const savePhotoSuccess = (photos:PhotosType):SavePhotoSuccessActionType => ({ type: SAVE_PHOTO_SUCCESS, photos })
 // export const updateNewPostActionCreator = (text) => ({ type: UPDATE_NEW_POST_TEXT, newText: text })
 
-export const getUserProfile = (userId:number) =>  // ф-я котороя может что то принимать и которая возвращает санку
-    async (dispatch:any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+type GetStateType = () => AppStateType; // типизация getState
+type DispatchType = Dispatch<ActionsTypes>; // типизация dispatch
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ActionsTypes>
+
+export const getUserProfile = (userId:number):ThunkType =>  // ф-я котороя может что то принимать и которая возвращает санку
+    async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         const response = await profileAPI.getProfile(userId) // нужна переменная response мы ее создадим, в респонсе будет сидет результат которым зарезолвиться промис
         //or response
         dispatch(setUserProfile(response.data)) // or response.data
 
     }
 
-export const getStatus = (userId:number) =>  // ф-я котороя может что то принимать и которая возвращает санку
-    async (dispatch:any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
-        const response = await profileAPI.getStatus(userId)
-        dispatch(setStatus(response.data))
+export const getStatus = (userId:number | null):ThunkType =>  // ф-я котороя может что то принимать и которая возвращает санку
+    async (dispatch) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+        if (userId !== null) {
+            const response = await profileAPI.getStatus(userId);
+            dispatch(setStatus(response.data));
+        }
     }
 
-export const updateStatus = (status:string) =>  // ф-я котороя может что то принимать и которая возвращает санку
-    async (dispatch:any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const updateStatus = (status:string):ThunkType =>  // ф-я котороя может что то принимать и которая возвращает санку
+    async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         const response = await profileAPI.updateStatus(status)
         if (response.data.resultCode === 0) {
             dispatch(setStatus(status))
         }
     }
 
-export const savePhoto = (file:any) =>  // ф-я котороя может что то принимать и которая возвращает санку
-    async (dispatch:any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const savePhoto = (file:any):ThunkType =>  // ф-я котороя может что то принимать и которая возвращает санку
+    async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         const response = await profileAPI.savePhoto(file)
         if (response.data.resultCode === 0) {
             dispatch(savePhotoSuccess(response.data.data.photos))
         }
     }
 
-export const saveProfile = (profile:ProfileType) =>  // ф-я котороя может что то принимать и которая возвращает санку
-    async (dispatch:any, getState:any) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
+export const saveProfile = (profile:ProfileType):ThunkType =>  // ф-я котороя может что то принимать и которая возвращает санку
+    async (dispatch, getState) => {               // кто то снаружи вызовит санк криэйтор чтобы получить thunk
         const userId = getState().auth.userId;
         const response = await profileAPI.saveProfile(profile)
         if (response.data.resultCode === 0) {
-            dispatch(getUserProfile(userId))
+            if (userId !== null) {
+                dispatch(getUserProfile(userId));
+            }
         }
         else {
             dispatch(stopSubmit('editProfile', { _error: response.data.messages[0] }));

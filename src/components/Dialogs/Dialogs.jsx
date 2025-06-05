@@ -4,7 +4,7 @@ import DialogItem from './DialogItem/DialogItem'
 import Message from './Message/Message'
 import { Navigate } from 'react-router-dom'
 
-import { AddMessageFormRedux } from './AddMessageForm'
+import  { AddMessageFormRedux } from './AddMessageForm'
 
 
 const Dialogs = (props) => {

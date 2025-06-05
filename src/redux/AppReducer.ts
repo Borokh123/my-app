@@ -1,4 +1,7 @@
+import { Dispatch } from "redux";
 import { getAuthUserData } from "./AuthReducer";
+import { AppStateType } from "./ReduxStore";
+import { ThunkAction } from "redux-thunk";
 
 
 const INITIALIZED_SUCCES = 'INITIALIZED_SUCCES';
@@ -34,16 +37,22 @@ type InitializedSuccesActionType = {
     type: typeof INITIALIZED_SUCCES // типизация action creator
 }
 export const initializedSucces = ():InitializedSuccesActionType => ({ type: INITIALIZED_SUCCES });//фигурные скобки в стрелочной ф-ии означает тело ф-ии но мы избавились от тела ф-ии. Это обьект, мы создали для этого нужно обернуть в круглые скобки
+type GetStateType = () => AppStateType; // типизация getState
+type DispatchType = Dispatch<InitializedSuccesActionType>; // типизация dispatch
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, InitializedSuccesActionType>
+// export const initializeApp = ():ThunkType => (dispatch, getState) => { // ф-я котороя может что то принимать и которая возвращает санку
+//     let promise = dispatch(getAuthUserData());
+//    await Promise.all([promise]);
+//     .then(() => {  //нужно убрать then
+//     dispatch(initializedSucces());
+//   });
+// }
 
-export const initializeApp = () => (dispatch:any) => { // ф-я котороя может что то принимать и которая возвращает санку
+export const initializeApp = ():ThunkType => async (dispatch, getState) => { // ф-я котороя может что то принимать и которая возвращает санку
     let promise = dispatch(getAuthUserData());
-    Promise.all([promise])
-    .then(() => {
+    await Promise.all([promise]);
     dispatch(initializedSucces());
-    });
 }
-
-
 
 
 

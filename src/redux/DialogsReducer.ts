@@ -49,7 +49,7 @@ const DialogsReducer = (state = initialState, action:any): InitialStateType => {
             return state;
     }
 }
-type addMessageActionCreatorType = {
+export type addMessageActionCreatorType = {
     type: typeof ADD_MESSAGE
     newMessageBody: string
 }
