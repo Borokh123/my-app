@@ -4,7 +4,7 @@ import DialogsReducer from "./DialogsReducer";
 import SideBarReducer from "./SideBarReducer";
 import UsersReducer from "./UsersReducer";
 import AuthReducer from "./AuthReducer";
-import { reducer as formReducer } from 'redux-form' 
+import { reducer as formReducer } from 'redux-form'
 // import thunkMiddleware from "redux-thunk";
 import { thunk } from "redux-thunk";
 import AppReducer from "./AppReducer";
@@ -23,6 +23,8 @@ let redusers = combineReducers({
 type ReducerType = typeof redusers
 export type AppStateType = ReturnType<ReducerType>
 
+type PropertiesType<T> = T extends { [key: string]: infer U } ? U : never;// (если T это объект, то U будет типом его значений)
+export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => any }> = ReturnType<PropertiesType<T>>; //ActionCreator возвращает ф-ю, и принимает набор каких-то аргументов
 
 
 // Extend the Window interface to include __REDUX_DEVTOOLS_EXTENSION_COMPOSE__

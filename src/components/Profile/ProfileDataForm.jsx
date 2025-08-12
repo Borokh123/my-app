@@ -1,7 +1,7 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 import s from './ProfileInfo/ProfileInfo.module.css'
-import FormControl from '../common/FormsControls/FormsControls';
+import FormControl, { Input, Textarea } from '../common/FormsControls/FormsControls';
 import styles from '../common/FormsControls/FormsControls.module.css'
 import UserPhoto from '../../assets/images/userPng.png'
 
@@ -43,15 +43,15 @@ const ProfileDataForm = ({ handleSubmit, profile, error, isOpen, onClose, savePh
 
                 </div>
                 {error && <div className={styles.formSummaryError}>{error}</div>}
-                <><b>Full name:</b> <Field child="input" component={FormControl} placeholder={'Full Name'} name={'fullName'} validate={[]} type="text" /></>
-                <><b>Looking for a job:</b> <Field child="input" className={s.checkbox} component={FormControl} name={'lookingForAJob'} validate={[]} type="checkbox" /></>
+                <><b>Full name:</b> <Field component={Input} placeholder={'Full Name'} name={'fullName'} validate={[]} type="text" /></>
+                <><b>Looking for a job:</b> <Field component={Input} className={s.checkbox} component={FormControl} name={'lookingForAJob'} validate={[]} type="checkbox" /></>
 
-                <><b>My proffesinal skills:</b> <Field child="textarea" component={FormControl} placeholder={'My proffesinal skills'} name={'lookingForAJobDescription'} validate={[]} type="text" /></>
-                <><b>About me:</b> <Field child="textarea" component={FormControl} placeholder={'About me'} name={'aboutMe'} validate={[]} type="text" /></>
+                <><b>My proffesinal skills:</b> <Field component={Textarea} placeholder={'My proffesinal skills'} name={'lookingForAJobDescription'} validate={[]} type="text" /></>
+                <><b>About me:</b> <Field component={Textarea} placeholder={'About me'} name={'aboutMe'} validate={[]} type="text" /></>
             <>
                 <b>Contacts:</b> {Object.keys(profile.contacts).map(key => {
                     return <div key={key} className={s.contact}>
-                        <b>{key}</b> <Field child="input" component={FormControl} placeholder={key} name={'contacts.' + key} validate={[]} type="text" />
+                        <b>{key}</b> <Field component={Input} placeholder={key} name={'contacts.' + key} validate={[]} type="text" />
                     </div>
                 })}
             </>

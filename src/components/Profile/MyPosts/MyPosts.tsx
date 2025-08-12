@@ -3,7 +3,7 @@ import s from './MyPosts.module.css'
 import Post from './Post/Post'
 import { Field, reduxForm } from 'redux-form'
 import { maxLengthCreator, required } from '../../../utils/validators/validators'
-import FormControl from '../../common/FormsControls/FormsControls'
+import FormControl, { Textarea } from '../../common/FormsControls/FormsControls'
 import { PostType, ProfileType } from '../../../types/types'
 type PropsType = {
   posts: Array<PostType>
@@ -60,7 +60,7 @@ const AddPostForm = (props:any) => {
         <form onSubmit={props.handleSubmit} >
             <div>
                 {/* <textarea onChange={onPostChange} ref={newPostElement} value={props.newPostText}></textarea> */}
-                <Field className={s.addPost} child='textarea' component={FormControl} name="newPostText" placeholder="What's happening?!" validate={[required, maxLength10]} />
+                <Field className={s.addPost} component={Textarea}  name="newPostText" placeholder="What's happening?!" validate={[required, maxLength10]} />
             </div>
             <div className={s.submitBlock}>
                 <button>Post</button>

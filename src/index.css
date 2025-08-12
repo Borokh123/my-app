@@ -22,3 +22,7 @@ div {
 *::after {
   box-sizing: border-box;
 }
+
+svg {
+  box-sizing: content-box; /* Возвращаем поведение по умолчанию */
+}

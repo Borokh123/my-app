@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { follow, requestUsers, setCurrentPage, toogleFollowingProgress, unfollow } from '../../redux/UsersReducer'
+import { follow, requestUsers, setCurrentPage, toogleFollowingProgress, unfollow, actions } from '../../redux/UsersReducer'
 import Users from './Users';
 import Preloader from '../common/Preloader/Preloader';
 import { compose } from 'redux';
@@ -28,6 +28,7 @@ type mapDispatchPropsType = {
 type ownPropsType = {
   pageTitle: string
 }
+
 
 
 type propsType = mapStatePropsType & mapDispatchPropsType & ownPropsType
