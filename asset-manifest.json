@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/my-app/static/css/main.2855b8e7.css",
-    "main.js": "/my-app/static/js/main.887a292d.js",
+    "main.js": "/my-app/static/js/main.5662a4cf.js",
     "static/js/453.68693753.chunk.js": "/my-app/static/js/453.68693753.chunk.js",
     "static/css/194.551e30d9.chunk.css": "/my-app/static/css/194.551e30d9.chunk.css",
     "static/js/194.b6e62274.chunk.js": "/my-app/static/js/194.b6e62274.chunk.js",
@@ -11,7 +11,7 @@
     "static/media/logo-reaper-svgrepo-com.svg": "/my-app/static/media/logo-reaper-svgrepo-com.1a2a4ec80c6047ce6740652930f62248.svg",
     "index.html": "/my-app/index.html",
     "main.2855b8e7.css.map": "/my-app/static/css/main.2855b8e7.css.map",
-    "main.887a292d.js.map": "/my-app/static/js/main.887a292d.js.map",
+    "main.5662a4cf.js.map": "/my-app/static/js/main.5662a4cf.js.map",
     "453.68693753.chunk.js.map": "/my-app/static/js/453.68693753.chunk.js.map",
     "194.551e30d9.chunk.css.map": "/my-app/static/css/194.551e30d9.chunk.css.map",
     "194.b6e62274.chunk.js.map": "/my-app/static/js/194.b6e62274.chunk.js.map",
@@ -20,6 +20,6 @@
   },
   "entrypoints": [
     "static/css/main.2855b8e7.css",
-    "static/js/main.887a292d.js"
+    "static/js/main.5662a4cf.js"
   ]
 }
